@@ -2,18 +2,63 @@
 
 <head>
 	<meta charset="utf-8">
-	<script>
-		// TODO: create a handler
-    window.addEventListener("load", function(){
-        // TODO: register the handler
-    });
-	</script>
+	
 </head>
 
 <body>
 
 	<form id="searchForm">
     <!-- TODO: add form elements -->
+	<label><input type="text" name="q"/></label>
+	<label>Google<input type="radio" name="engine" value="google" /></label>
+	<label>DuckDuckGo<input type="radio" name="engine" value="duckDuckGo" /></label>
+	<label>Bing<input type="radio" name="engine" value="bing" /></label>
+	<label>Ask<input type="radio" name="engine" value="ask" /></label>
+	
+		<input id="button"  type="submit" value="Go!">
+
 	</form>
 
 </body>
+<script>
+	// TODO: create a handler
+
+	function setSearchEngine () {
+		let actions = {
+			"google": "https://www.google.com/search",
+			"duckDuckGo": "https://duckduckgo.com/",
+			"bing": "https://www.bing.com/search",
+			"ask": "https://www.ask.com/web"
+		}
+
+		for (item in actions) {
+			if (item === document.querySelector("input[name=engine]:checked").value) {		
+			let actionURL = actions[item];
+				document.getElementById("button").setAttribute("formaction", actionURL);
+			}
+		}
+	}
+
+window.addEventListener("load", function() {
+	 let form = document.getElementById("searchForm");
+	 form.addEventListener("submit", function(event) {
+		//alert("submit clicked");
+		textInput = document.querySelector("input[name=q]");
+		if(textInput.value === "") {
+			alert("All fields are required!");
+			event.preventDefault();
+		}
+		if ((form.engine[0].checked === false ) && (form.engine[1].checked === false ) && (form.engine[2].checked === false ) && (form.engine[3].checked === false )) {
+			alert("Please select a search engine");
+			event.preventDefault();
+		}
+		
+	 });
+  });
+window.addEventListener("load", function(){
+	document.getElementById("searchForm").onsubmit = function() {setSearchEngine()};
+});
+</script>
+
+
+</html>
